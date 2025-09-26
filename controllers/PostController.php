@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\Post;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -38,6 +39,12 @@ class PostController extends Controller
      */
     public function actionIndex()
     {
+        // Check if user is logged in
+        if (Yii::$app->user->isGuest) {
+            // Redirect to login page
+            return $this->redirect(['site/login']);
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => Post::find(),
             'sort' => [
